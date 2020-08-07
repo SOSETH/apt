@@ -38,4 +38,5 @@ apt_unattended_upgrades: False
 # If set, install host-specific packages
 host_pkgs: []
 
+# Which release to use for updates - can be overriden independently for testing
 apt_update_release: "{{ ansible_distribution_release }}"
