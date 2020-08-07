@@ -30,10 +30,12 @@ apt_debian_package_types: "main contrib non-free"
 apt_ubuntu_package_types: "main universe multiverse"
 
 # Which release to default to if ansible can't resolve the relase correctly?
-apt_default_unknown_debian: "buster"
+apt_default_unknown_debian: "bullseye"
 
 # Whether to automatically install updates
 apt_unattended_upgrades: False
 
 # If set, install host-specific packages
 host_pkgs: []
+
+apt_update_release: "{{ ansible_distribution_release }}"

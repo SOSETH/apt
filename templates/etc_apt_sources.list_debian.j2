@@ -5,9 +5,9 @@ deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }} {{ apt_debia
 {% endif %}
 
 {% if apt_security_mirror_enabled %}
-deb {{ apt_security_mirror }} {{ ansible_distribution_release }}/updates {{ apt_debian_package_types }}
+deb {{ apt_security_mirror }} {{ apt_update_release }}/updates {{ apt_debian_package_types }}
 {% if apt_add_src %}
-deb-src {{ apt_security_mirror }} {{ ansible_distribution_release }}/updates {{ apt_debian_package_types }}
+deb-src {{ apt_security_mirror }} {{ apt_update_release }}/updates {{ apt_debian_package_types }}
 {% endif %}
 
 {% endif %}
