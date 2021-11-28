@@ -43,7 +43,12 @@
     when: not apt_with_backports | bool
 
   - name: Add custom apt repo
+    become: True
     block:
+      - name: install gpg
+        apt:
+          name: gpg
+          state: present
       - name: Add custom repo key
         apt_key:
           data: "{{ apt_custom_repo_key }}"
@@ -53,30 +58,25 @@
           repo: "{{ apt_custom_repo_url }}"
           state: present
         notify: apt update cache
-    become: True
     when: apt_add_custom_repo | bool
 
   - meta: flush_handlers
 
-  - name: install programs
-    become: True
-    apt:
-     name:
-       - debian-goodies
-       - unattended-upgrades
-     state: present
-     update_cache: yes
-     cache_valid_time: 1800
-
   - name: Enable unattended upgrades
     become: True
+    block:
+      - name: install unattended-upgrades
+        apt:
+          name: unattended-upgrades
+          state: present
+      - name: Configure unattended-upgrades
+        template:
+          src: 50unattended-upgrades.j2
+          dest: /etc/apt/apt.conf.d/50unattended-upgrades
+          owner: root
+          group: root
+          mode: 0644
     when: apt_unattended_upgrades | bool
-    template:
-      src: 50unattended-upgrades.j2
-      dest: /etc/apt/apt.conf.d/50unattended-upgrades
-      owner: root
-      group: root
-      mode: 0644
 
   - name: delete apt.conf
     become: True
