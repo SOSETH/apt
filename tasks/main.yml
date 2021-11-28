@@ -23,7 +23,7 @@
     notify: apt update cache
     when: not apt_is_special_snowflake
 
-  - name: install apt sources configuration
+  - name: install apt backports configuration
     become: True
     template:
       src: etc_apt_sources.list.d_10backports.list.j2
@@ -33,6 +33,14 @@
       mode: 0644
     notify: apt update cache
     when: apt_with_backports | bool
+
+  - name: remove apt backports configuration
+    become: True
+    file:
+      path: /etc/apt/sources.list.d/10backports.list
+      state: absent
+    notify: apt update cache
+    when: not apt_with_backports | bool
 
   - name: Add custom apt repo
     block:
