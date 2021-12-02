@@ -10,8 +10,9 @@ apt_add_custom_repo: False
 apt_custom_repo_url: ""
 apt_custom_repo_key: ""
 
-# Option to disable security mirror for e.g Debian testing
+# Option to disable security/update mirror for e.g Debian testing or Raspbian
 apt_security_mirror_enabled: True
+apt_update_mirror_enabled: True
 
 # Which mirrors should we use?
 apt_default_mirror: "http://debian.ethz.ch/debian/"
