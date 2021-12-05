@@ -20,3 +20,5 @@ Configuration of package management tools.
 | `apt_default_unknown_debian` | `buster` | Release to default to if ansible can't detect it |
 | `apt_unattended_upgrades` | `False` | Whether to enable automatic, unattended upgrades |
 | `apt_update_release` | `ansible_distribution_release` | Which release to use for updates - can be overriden independently for testing |
+| `apt_security_mirror_enabled` | `True` | Some servers or devices does not need security mirrors like Debian testing or Raspian |
+| `apt_update_mirror_enabled` | `True` | Some servers or devices does not need update mirrors like Debian testing or Raspian |

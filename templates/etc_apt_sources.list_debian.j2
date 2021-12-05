@@ -19,7 +19,10 @@ deb-src {{ apt_security_mirror }} {{ apt_update_release }}/updates {{ apt_debian
 {% endif %}
 
 {% endif %}
+
+{% if apt_update_mirror_enabled %}
 deb {{ apt_default_mirror }} {{ ansible_distribution_release }}-updates {{ apt_debian_package_types }}
+{% endif %}
 {% if apt_add_src %}
 deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }}-updates {{ apt_debian_package_types }}
 {% endif %}
