@@ -105,10 +105,3 @@
       group: root
       mode: 0644
     when: apt_install_extra | bool
-
-  - name: Install host-specific programs
-    become: True
-    when: host_pkgs != []
-    apt:
-      name: "{{ host_pkgs }}"
-      state: present
