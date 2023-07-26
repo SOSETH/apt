@@ -8,6 +8,8 @@ apt_with_backports: False
 # If set to True, a custom APT repo and its key will be added
 apt_add_custom_repo: False
 apt_custom_repo_url: ""
+# Filename of source list file. ".list" will be appended automatically. If null, Ansible's algorithm will be used to generate a name.
+apt_custom_repo_file: null
 apt_custom_repo_key: ""
 
 # Option to disable security/update mirror for e.g Debian testing or Raspbian

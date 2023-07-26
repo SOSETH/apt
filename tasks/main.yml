@@ -56,6 +56,7 @@
       - name: Add custom repo
         apt_repository:
           repo: "{{ apt_custom_repo_url }}"
+          filename: "{{ apt_custom_repo_file }}"
           state: present
         notify: apt update cache
     when: apt_add_custom_repo | bool
