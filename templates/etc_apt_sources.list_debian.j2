@@ -1,28 +1,28 @@
 # Managed with Ansible
-deb {{ apt_default_mirror }} {{ ansible_distribution_release }} {{ apt_debian_package_types }}
+deb {{ apt_default_mirror }} {{ ansible_distribution_release }} {{ apt_debian_package_types | join(" ") }}
 {% if apt_add_src %}
-deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }} {{ apt_debian_package_types }}
+deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }} {{ apt_debian_package_types | join(" ") }}
 {% endif %}
 
 {% if apt_security_mirror_enabled %}
 {% if ansible_distribution_version is version('11', '>=') %}
-deb {{ apt_security_mirror }} {{ apt_update_release }}-security {{ apt_debian_package_types }}
+deb {{ apt_security_mirror }} {{ apt_update_release }}-security {{ apt_debian_package_types | join(" ") }}
 {% else %}
-deb {{ apt_security_mirror }} {{ apt_update_release }}/updates {{ apt_debian_package_types }}
+deb {{ apt_security_mirror }} {{ apt_update_release }}/updates {{ apt_debian_package_types | join(" ") }}
 {% endif %}
 {% if apt_add_src %}
 {% if ansible_distribution_version is version('11', '>=') %}
-deb-src {{ apt_security_mirror }} {{ apt_update_release }}-security {{ apt_debian_package_types }}
+deb-src {{ apt_security_mirror }} {{ apt_update_release }}-security {{ apt_debian_package_types | join(" ") }}
 {% else %}
-deb-src {{ apt_security_mirror }} {{ apt_update_release }}/updates {{ apt_debian_package_types }}
+deb-src {{ apt_security_mirror }} {{ apt_update_release }}/updates {{ apt_debian_package_types | join(" ") }}
 {% endif %}
 {% endif %}
 {% endif %}
 
 {% if apt_update_mirror_enabled %}
-deb {{ apt_default_mirror }} {{ ansible_distribution_release }}-updates {{ apt_debian_package_types }}
+deb {{ apt_default_mirror }} {{ ansible_distribution_release }}-updates {{ apt_debian_package_types | join(" ") }}
 {% if apt_add_src %}
-deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }}-updates {{ apt_debian_package_types }}
+deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }}-updates {{ apt_debian_package_types | join(" ") }}
 {% endif %}
 {% endif %}
 

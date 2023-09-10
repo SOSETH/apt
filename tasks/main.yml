@@ -9,6 +9,19 @@
     apt_sources_list: etc_apt_sources.list_debian.j2
   when: ansible_distribution == "Debian"
 
+- name: Set facts for Debian (VM)
+  ansible.builtin.set_fact:
+    apt_debian_package_types: "{{ apt_debian_vm_package_types }}"
+  when:
+    - ansible_distribution == "Debian"
+    - ansible_virtualization_role == "guest"
+
+- name: Do not activate non-free-firmware for < Debian 12
+  ansible.builtin.set_fact:
+    apt_debian_package_types: "{{ apt_debian_vm_package_types | difference(['non-free-firmware']) }}"
+  when:
+    - ansible_distribution_version is version('12', '<')
+
 - name: Set facts for Ubuntu
   ansible.builtin.set_fact:
     apt_sources_list: etc_apt_sources.list_ubuntu.j2
@@ -87,6 +100,16 @@
   ansible.builtin.file:
     path: /etc/apt/apt.conf
     state: absent
+
+- name: Silence non-free-firmware warning
+  become: true
+  ansible.builtin.copy:
+    src: etc_apt_apt.conf.d_99silence_firmware_warning.conf
+    dest: /etc/apt/apt.conf.d/99silence-firmware-warning.conf
+    owner: root
+    group: root
+    mode: "0644"
+  when: ansible_distribution == "Debian"
 
 - name: Install extra tools
   become: true

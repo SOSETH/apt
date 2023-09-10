@@ -29,8 +29,19 @@ apt_add_src: false
 apt_is_special_snowflake: false
 
 # Which sections should we add?
-apt_debian_package_types: "main contrib non-free"
-apt_ubuntu_package_types: "main universe multiverse"
+apt_debian_package_types:
+  - main
+  - contrib
+  - non-free
+  - non-free-firmware
+apt_debian_vm_package_types:
+  - main
+  - contrib
+  - non-free
+apt_ubuntu_package_types:
+  - main
+  - universe
+  - multiverse
 
 # Which release to default to if ansible can't resolve the relase correctly?
 apt_default_unknown_debian: "bullseye"

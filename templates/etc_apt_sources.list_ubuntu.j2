@@ -1,20 +1,20 @@
 # Managed with Ansible
-deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} {{ apt_ubuntu_package_types }}
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} {{ apt_ubuntu_package_types | join(" ") }}
 {% if apt_add_src %}
-deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} {{ apt_ubuntu_package_types }}
+deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }} {{ apt_ubuntu_package_types | join(" ") }}
 {% endif %}
 
 {% if apt_security_mirror_enabled %}
-deb {{ apt_ubuntu_security_mirror }} {{ ansible_distribution_release }}-security {{ apt_ubuntu_package_types }}
+deb {{ apt_ubuntu_security_mirror }} {{ ansible_distribution_release }}-security {{ apt_ubuntu_package_types | join(" ") }}
 {% if apt_add_src %}
-deb-src {{ apt_ubuntu_security_mirror }} {{ ansible_distribution_release }}-security {{ apt_ubuntu_package_types }}
+deb-src {{ apt_ubuntu_security_mirror }} {{ ansible_distribution_release }}-security {{ apt_ubuntu_package_types | join(" ") }}
 {% endif %}
 
 {% endif %}
 {% if apt_update_mirror_enabled %}
-deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates {{ apt_ubuntu_package_types }}
+deb {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates {{ apt_ubuntu_package_types | join(" ") }}
 {% endif %}
 {% if apt_add_src %}
-deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates {{ apt_ubuntu_package_types }}
+deb-src {{ apt_ubuntu_mirror }} {{ ansible_distribution_release }}-updates {{ apt_ubuntu_package_types | join(" ") }}
 {% endif %}
 

@@ -15,8 +15,9 @@ Configuration of package management tools.
 | `apt_ubuntu_security_mirror` | `http://security.ubuntu.com/ubuntu/` | Default ubuntu security mirror |
 | `apt_add_src` | `False` | Whether to add source repositories |
 | `apt_is_special_snowflake` | `False` | If set, do not apply main config. Useful for debian forks (e.g. Raspbian)
-| `apt_debian_package_types` | `main contrib non-free` | Repo sections to add for debian |
-| `apt_ubuntu_package_types` | `main universe multiverse` | Repo sections to add for ubuntu |
+| `apt_debian_package_types` | `["main", "contrib", "non-free", "non-free-firmware"]` | Repo sections to add for debian |
+| `apt_debian_vm_package_types` | `["main", "contrib", "non-free"]` | Repo sections to add for debian (VM) |
+| `apt_ubuntu_package_types` | `["main", "universe", "multiverse"]` | Repo sections to add for ubuntu |
 | `apt_default_unknown_debian` | `buster` | Release to default to if ansible can't detect it |
 | `apt_unattended_upgrades` | `False` | Whether to enable automatic, unattended upgrades |
 | `apt_update_release` | `ansible_distribution_release` | Which release to use for updates - can be overriden independently for testing |
