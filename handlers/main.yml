@@ -1,5 +1,5 @@
 ---
-- name : apt update cache
-  become: True
-  apt:
-    update_cache: yes
+- name: Update APT cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true

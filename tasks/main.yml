@@ -1,107 +1,110 @@
 ---
-  - name: Default to {{ apt_default_unknown_debian }} when ansible can't read out release name on debian
-    set_fact:
-      ansible_distribution_release: "{{ apt_default_unknown_debian }}"
-    when: ansible_distribution_release == "NA" and ansible_distribution == "Debian"
+- name: Detecting unknown debian release
+  ansible.builtin.set_fact:
+    ansible_distribution_release: "{{ apt_default_unknown_debian }}"
+  when: ansible_distribution_release == "NA" and ansible_distribution == "Debian"
 
-  - set_fact:
-      apt_sources_list: etc_apt_sources.list_debian.j2
-    when: ansible_distribution == "Debian"
+- name: Set facts for Debian
+  ansible.builtin.set_fact:
+    apt_sources_list: etc_apt_sources.list_debian.j2
+  when: ansible_distribution == "Debian"
 
-  - set_fact:
-      apt_sources_list: etc_apt_sources.list_ubuntu.j2
-    when: ansible_distribution == "Ubuntu"
+- name: Set facts for Ubuntu
+  ansible.builtin.set_fact:
+    apt_sources_list: etc_apt_sources.list_ubuntu.j2
+  when: ansible_distribution == "Ubuntu"
 
-  - name: install apt sources configuration
-    become: True
-    template:
-      src: "{{ apt_sources_list }}"
-      dest: /etc/apt/sources.list
-      owner: root
-      group: root
-      mode: 0644
-    notify: apt update cache
-    when: not apt_is_special_snowflake
+- name: Install apt sources configuration
+  become: true
+  ansible.builtin.template:
+    src: "{{ apt_sources_list }}"
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Update APT cache
+  when: not apt_is_special_snowflake
 
-  - name: install apt backports configuration
-    become: True
-    template:
-      src: etc_apt_sources.list.d_10backports.list.j2
-      dest: /etc/apt/sources.list.d/10backports.list
-      owner: root
-      group: root
-      mode: 0644
-    notify: apt update cache
-    when: apt_with_backports | bool
+- name: Install apt backports configuration
+  become: true
+  ansible.builtin.template:
+    src: etc_apt_sources.list.d_10backports.list.j2
+    dest: /etc/apt/sources.list.d/10backports.list
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Update APT cache
+  when: apt_with_backports | bool
 
-  - name: remove apt backports configuration
-    become: True
-    file:
-      path: /etc/apt/sources.list.d/10backports.list
-      state: absent
-    notify: apt update cache
-    when: not apt_with_backports | bool
+- name: Remove apt backports configuration
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/10backports.list
+    state: absent
+  notify: Update APT cache
+  when: not apt_with_backports | bool
 
-  - name: Add custom apt repo
-    become: True
-    block:
-      - name: install gpg
-        apt:
-          name: gpg
-          state: present
-      - name: Add custom repo key
-        apt_key:
-          data: "{{ apt_custom_repo_key }}"
-          state: present
-      - name: Add custom repo
-        apt_repository:
-          repo: "{{ apt_custom_repo_url }}"
-          filename: "{{ apt_custom_repo_file }}"
-          state: present
-        notify: apt update cache
-    when: apt_add_custom_repo | bool
+- name: Add custom apt repo
+  become: true
+  when: apt_add_custom_repo | bool
+  block:
+    - name: Install gpg
+      ansible.builtin.apt:
+        name: gpg
+        state: present
+    - name: Add custom repo key
+      ansible.builtin.apt_key:
+        data: "{{ apt_custom_repo_key }}"
+        state: present
+    - name: Add custom repo
+      ansible.builtin.apt_repository:
+        repo: "{{ apt_custom_repo_url }}"
+        filename: "{{ apt_custom_repo_file }}"
+        state: present
+      notify: Update APT cache
 
-  - meta: flush_handlers
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
 
-  - name: Enable unattended upgrades
-    become: True
-    block:
-      - name: install unattended-upgrades
-        apt:
-          name: unattended-upgrades
-          state: present
-      - name: Configure unattended-upgrades
-        template:
-          src: 50unattended-upgrades.j2
-          dest: /etc/apt/apt.conf.d/50unattended-upgrades
-          owner: root
-          group: root
-          mode: 0644
-    when: apt_unattended_upgrades | bool
+- name: Enable unattended upgrades
+  become: true
+  when: apt_unattended_upgrades | bool
+  block:
+    - name: Install unattended-upgrades
+      ansible.builtin.apt:
+        name: unattended-upgrades
+        state: present
+    - name: Configure unattended-upgrades
+      ansible.builtin.template:
+        src: 50unattended-upgrades.j2
+        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+        owner: root
+        group: root
+        mode: "0644"
 
-  - name: delete apt.conf
-    become: True
-    file:
-      path: /etc/apt/apt.conf
-      state: absent
+- name: Delete apt.conf
+  become: true
+  ansible.builtin.file:
+    path: /etc/apt/apt.conf
+    state: absent
 
-  - name: install extra tools
-    become: True
-    apt:
-      name:
-        - aptitude
-        - apt-file
-      state: present
-      update_cache: yes
-      cache_valid_time: 1800
-    when: apt_install_extra | bool
+- name: Install extra tools
+  become: true
+  ansible.builtin.apt:
+    name:
+      - aptitude
+      - apt-file
+    state: present
+    update_cache: true
+    cache_valid_time: 1800
+  when: apt_install_extra | bool
 
-  - name: install aptitude configuration
-    become: True
-    copy:
-      src: etc_apt_apt.conf.d_99aptitude
-      dest: /etc/apt/apt.conf.d/99aptitude
-      owner: root
-      group: root
-      mode: 0644
-    when: apt_install_extra | bool
+- name: Install aptitude configuration
+  become: true
+  ansible.builtin.copy:
+    src: etc_apt_apt.conf.d_99aptitude
+    dest: /etc/apt/apt.conf.d/99aptitude
+    owner: root
+    group: root
+    mode: "0644"
+  when: apt_install_extra | bool

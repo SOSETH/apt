@@ -1,20 +1,20 @@
 ---
 # If set to True, install additional tools
-apt_install_extra: False
+apt_install_extra: false
 
 # If set to True, backports will be used too
-apt_with_backports: False
+apt_with_backports: false
 
 # If set to True, a custom APT repo and its key will be added
-apt_add_custom_repo: False
+apt_add_custom_repo: false
 apt_custom_repo_url: ""
 # Filename of source list file. ".list" will be appended automatically. If null, Ansible's algorithm will be used to generate a name.
 apt_custom_repo_file: null
 apt_custom_repo_key: ""
 
 # Option to disable security/update mirror for e.g Debian testing or Raspbian
-apt_security_mirror_enabled: True
-apt_update_mirror_enabled: True
+apt_security_mirror_enabled: true
+apt_update_mirror_enabled: true
 
 # Which mirrors should we use?
 apt_default_mirror: "http://debian.ethz.ch/debian/"
@@ -23,10 +23,10 @@ apt_ubuntu_mirror: "http://ubuntu.ethz.ch/ubuntu/"
 apt_ubuntu_security_mirror: "http://security.ubuntu.com/ubuntu/"
 
 # If set to True, deb-src repos will be added
-apt_add_src: False
+apt_add_src: false
 
 # If set to true, main apt config will not be applied.
-apt_is_special_snowflake: False
+apt_is_special_snowflake: false
 
 # Which sections should we add?
 apt_debian_package_types: "main contrib non-free"
@@ -36,7 +36,7 @@ apt_ubuntu_package_types: "main universe multiverse"
 apt_default_unknown_debian: "bullseye"
 
 # Whether to automatically install updates
-apt_unattended_upgrades: False
+apt_unattended_upgrades: false
 
 # Which release to use for updates - can be overriden independently for testing
 apt_update_release: "{{ ansible_distribution_release }}"

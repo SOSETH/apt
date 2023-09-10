@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   author: SOSETH
+  namespace: soseth
   description: See README.md
   company: sos.ethz.ch
   issue_tracker_url: https://github.com/SOSETH/apt/issues
@@ -13,10 +14,10 @@ galaxy_info:
         - stretch
     - name: Ubuntu
       versions:
-       - trusty
-       - xenial
-       - bionic
-  categories:
+        - trusty
+        - xenial
+        - bionic
+  galaxy_tags:
     - packaging
     - system
 dependencies: []
