@@ -1,4 +1,7 @@
 ---
+# If true, install apt-dater-host
+apt_install_apt_dater: false
+
 # If set to True, install additional tools
 apt_install_extra: false
 

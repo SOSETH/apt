@@ -4,6 +4,7 @@ Configuration of package management tools.
 ## Settings
 | Name | Default value | Description |
 | ---- | ------------- | ----------- |
+| `apt_install_apt_dater` | `False` | Install apt-dater-host |
 | `apt_install_extra` | `False` | Install extra APT tools (aptitude and apt-file) |
 | `apt_with_backports` | `False` | Whether to enable backports (Debian) |
 | `apt_add_custom_repo` | `False` | Add a custom APT repository (see below)? |

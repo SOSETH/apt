@@ -111,6 +111,13 @@
     mode: "0644"
   when: ansible_distribution == "Debian"
 
+- name: Install apt-dater-host
+  become: true
+  ansible.builtin.apt:
+    name: apt-dater-host
+    state: present
+  when: apt_install_apt_dater | bool
+
 - name: Install extra tools
   become: true
   ansible.builtin.apt:
