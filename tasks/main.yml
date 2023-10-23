@@ -18,7 +18,7 @@
 
 - name: Do not activate non-free-firmware for < Debian 12
   ansible.builtin.set_fact:
-    apt_debian_package_types: "{{ apt_debian_vm_package_types | difference(['non-free-firmware']) }}"
+    apt_debian_package_types: "{{ apt_debian_package_types | difference(['non-free-firmware']) }}"
   when:
     - ansible_distribution_version is version('12', '<')
 

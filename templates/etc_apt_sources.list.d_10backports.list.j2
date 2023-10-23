@@ -1,6 +1,6 @@
 # Managed with Ansible
 # backports
-deb {{ apt_default_mirror }} {{ ansible_distribution_release }}-backports {{ apt_debian_package_types }}
+deb {{ apt_default_mirror }} {{ ansible_distribution_release }}-backports {{ apt_debian_package_types | join(" ") }}
 {% if apt_add_src %}
-deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }}-backports {{ apt_debian_package_types }}
+deb-src {{ apt_default_mirror }} {{ ansible_distribution_release }}-backports {{ apt_debian_package_types | join(" ") }}
 {% endif %}
