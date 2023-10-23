@@ -95,6 +95,19 @@
         group: root
         mode: "0644"
 
+- name: Disable unattended upgrades
+  become: true
+  when: not apt_unattended_upgrades | bool
+  block:
+    - name: Uninstall unattended-upgrades
+      ansible.builtin.apt:
+        name: unattended-upgrades
+        state: absent
+    - name: Remove unattended-upgrades configuration
+      ansible.builtin.file:
+        dest: /etc/apt/apt.conf.d/50unattended-upgrades
+        state: absent
+
 - name: Delete apt.conf
   become: true
   ansible.builtin.file:
